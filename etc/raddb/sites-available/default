@@ -117,7 +117,7 @@ listen {
 	#
 	# ipv4addr = *
 	# ipv6addr = *
-	ipaddr = *
+	ipv4addr = *
 
 	#  Port on which to listen.
 	#  Allowed values are:
@@ -162,7 +162,7 @@ listen {
 	      #
 	      #  The default is 16.
 	      #  Setting this to 0 means "no limit"
-	      max_connections = 16
+	      max_connections = 0
 
 	      #  The per-socket "max_requests" option does not exist.
 
@@ -224,35 +224,6 @@ listen {
 
 		# Only for "proto = tcp". These are ignored for "udp" sockets.
 		#
-#		idle_timeout = 0
-#		lifetime = 0
-#		max_connections = 0
-	}
-}
-
-# IPv6 versions of the above - read their full config to understand options
-listen {
-	type = auth
-	ipv6addr = ::	# any.  ::1 == localhost
-	port = 0
-#	interface = eth0
-#	clients = per_socket_clients
-	limit {
-	      max_connections = 16
-	      lifetime = 0
-	      idle_timeout = 30
-	}
-}
-
-listen {
-	ipv6addr = ::
-	port = 0
-	type = acct
-#	interface = eth0
-#	clients = per_socket_clients
-
-	limit {
-#		max_pps = 0
 #		idle_timeout = 0
 #		lifetime = 0
 #		max_connections = 0

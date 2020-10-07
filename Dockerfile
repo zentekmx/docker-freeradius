@@ -25,6 +25,7 @@ ENV DB_NAME=radius
 ENV RADIUS_KEY=testing123
 ENV RAD_CLIENTS=10.0.0.0/24
 ENV RAD_DEBUG=no
+ENV TIMEOUT=60
 
 ADD --chown=root:radius ./etc/raddb/ /etc/raddb
 RUN /etc/raddb/certs/bootstrap && \
