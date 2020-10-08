@@ -16,8 +16,8 @@ services:
       #- DB_PASS=radpass
       #- DB_PORT=3306
       #- RADIUS_KEY=testing123
-      #- RAD_CLIENTS=10.0.0.0/24
-      - RAD_DEBUG=yes
+      #- RAD_CLIENTS=172.16.0.0/16
+      #- RAD_DEBUG=yes
     depends_on:
       - mysql
     links:
@@ -48,4 +48,4 @@ networks:
   backend:
     ipam:
       config:
-        - subnet: 10.0.0.0/24
+        - subnet: 172.16.0.0/16

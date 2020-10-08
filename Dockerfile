@@ -14,15 +14,16 @@ ENV DB_USER=radius
 ENV DB_PASS=radpass
 ENV DB_NAME=radius
 ENV RADIUS_KEY=testing123
-ENV RAD_CLIENTS=0.0.0.0/24
-ENV RAD_DEBUG=no
+ENV RAD_CLIENTS=172.16.0.0/16
+ENV RAD_DEBUG=yes
 ENV TIMEOUT=60
 ENV TZ=America/Mexico_City
 
 ADD --chown=root:radius ./etc/raddb/ /etc/raddb
 RUN /etc/raddb/certs/bootstrap && \
     chown -R root:radius /etc/raddb/certs && \
-    chmod 640 /etc/raddb/certs/*.pem
+    chmod 640 /etc/raddb/certs/*.pem && \
+    install -d -m 0755 -o radius -g radius -p /var/run/radiusd/
 
 
 ADD ./scripts/start.sh /start.sh
