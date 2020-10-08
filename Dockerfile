@@ -1,19 +1,10 @@
 FROM alpine:3.12.0
 
-MAINTAINER 2stacks <2stacks@2stacks.net>
+MAINTAINER Marco A Rojas <marco.rojas@zentek.com.mx>
 
-# Use docker build --pull -t 2stacks/freeradius .
+# Use make build push
 
-# Image details
-LABEL net.2stacks.name="2stacks" \
-      net.2stacks.license="MIT" \
-      net.2stacks.description="Dockerfile for autobuilds" \
-      net.2stacks.url="http://www.2stacks.net" \
-      net.2stacks.vcs-type="Git" \
-      net.2stacks.version="1.5.1" \
-      net.2stacks.radius.version="3.0.20-r1"
-
-RUN apk --update add freeradius freeradius-mysql freeradius-eap openssl
+RUN apk --update add freeradius freeradius-mysql freeradius-eap openssl mysql-client tzdata
 
 EXPOSE 1812/udp 1813/udp
 
@@ -23,9 +14,10 @@ ENV DB_USER=radius
 ENV DB_PASS=radpass
 ENV DB_NAME=radius
 ENV RADIUS_KEY=testing123
-ENV RAD_CLIENTS=10.0.0.0/24
+ENV RAD_CLIENTS=0.0.0.0/24
 ENV RAD_DEBUG=no
 ENV TIMEOUT=60
+ENV TZ=America/Mexico_City
 
 ADD --chown=root:radius ./etc/raddb/ /etc/raddb
 RUN /etc/raddb/certs/bootstrap && \
@@ -35,6 +27,10 @@ RUN /etc/raddb/certs/bootstrap && \
 
 ADD ./scripts/start.sh /start.sh
 ADD ./scripts/wait-for.sh /wait-for.sh
+ADD ./scripts/testusers.sql /testusers.sql
+
+RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime
+RUN echo "$TZ" > /etc/timezone
 
 RUN chmod +x /start.sh wait-for.sh
 
